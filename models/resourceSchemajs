@@ -1,0 +1,26 @@
+const mongoose = require('mongoose');
+
+const resourceSchema = new mongoose.Schema(
+  {
+    moduleId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Module',
+      required: true
+    },
+    title: { type: String, required: true },
+    description: { type: String },
+    resourceType: {
+      type: String,
+      enum: ['documentation', 'video', 'article', 'other'],
+      required: true
+    },
+    url: { type: String, required: true },
+    displayOrder: { type: Number, default: 1 },
+    estimatedMinutes: { type: Number }
+  },
+  { timestamps: true }
+);
+
+resourceSchema.index({ moduleId: 1, displayOrder: 1 });
+
+module.exports = mongoose.model('Resource', resourceSchema);   
